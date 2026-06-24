@@ -4,33 +4,30 @@ import { api } from "@/lib/axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { showToast } from "./components/toast/Toast"
-import { ICustomer } from "@/proxy"
+import { showToast } from "../components/toast/Toast"
 
 
-export default function LoginPage() {
+export default function RegisterPage() {
 
- const [username, setUsername] = useState('')
- const [password, setPassword] = useState('')
- const router = useRouter()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
 
- const onLogin =async (e: React.SubmitEvent) => {
-  e.preventDefault()
-  try {
-    const res = await api.post('admin/login',{
-      username,
-      password
-    }, {
-      withCredentials: true
-    })
-    
-    showToast (res.data.message, 'success')
-    const data = res.data.data as ICustomer
-    router.push(`/${data.role.toLocaleLowerCase()}`)
-  } catch (error: any) {
-    showToast (error.response.data.message, 'danger')
-  }
- }
+  const onSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await api.post('admin/register', {
+        username,
+        password: password,
+    }) 
+      showToast(res.data.message, 'success')
+      router.push('/')
+    } catch (error: any) {
+      console.log(error)
+      showToast(error.response.data.message, 'danger')  
+    }
+  };
 
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
@@ -40,30 +37,30 @@ export default function LoginPage() {
       >
         <div className="card-body p-4 p-md-5">
           <div className="d-flex align-items-center justify-content-center flex-column">
-            <h5 className="fw-bold mb-1">Selamat datang</h5>
-            <p className="text-muted small mb-4">Masuk ke Admin</p>
+            <h5 className="fw-bold mb-1">Register</h5>
+            <p className="text-muted small mb-4">Daftarkan akun anda</p>
           </div>
 
-          <form onSubmit={onLogin}>
+          <form onSubmit={onSubmit}>
             <div className="mb-3">
               <label className="form-label small fw-semibold">Username</label>
               <input
                 type="text"
                 name="username"
                 className="form-control form-control-sm py-2"
-                placeholder="Masukkan Username"
+                placeholder="Masukan Username anda"
                 value={username}
                 onChange={(e) => setUsername (e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-3">
               <label className="form-label small fw-semibold">Password</label>
               <input
                 type="password"
                 name="password"
                 className="form-control form-control-sm py-2"
-                placeholder="Masukkan Password"
+                placeholder="Masukan Password"
                 value={password}
                 onChange={(e) => setPassword (e.target.value)}
               />
@@ -74,23 +71,22 @@ export default function LoginPage() {
               className="btn w-100 py-2 text-white fw-semibold"
               style={{ background: "#1e2a3a", borderRadius: "8px" }}
             >
-              Masuk
+              Daftar
             </button>
           </form>
 
           <p className="text-center text-muted small mt-4 mb-0">
-            Belum punya akun?
+            Sudah punya akun?
           </p>
-          <Link href={'/register'}>
-          <button
-              type="button"
-              className="btn w-100 py-2 text-white fw-semibold"
-              style={{ background: "#1e2a3a", borderRadius: "8px" }}
-            >
-              Daftar
+          <Link href={'/'}>
+            <button
+                type="submit"
+                className="btn w-100 py-2 text-white fw-semibold"
+                style={{ background: "#222e3d", borderRadius: "8px" }}
+              >
+                Login
             </button>
-            </Link>
-
+          </Link>
         </div>
       </div>
     </div>
