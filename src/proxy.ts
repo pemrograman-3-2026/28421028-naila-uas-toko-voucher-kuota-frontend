@@ -1,33 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export type IRole = 'CUSTOMER' | 'ADMIN'
-export interface ICustomer {
+export type IRole = 'ADMIN' | 'USER'
+export interface IUser {
     username: string
-    role: 'ADMIN' | 'CUSTOMER',
+    role: IRole
     no_telp: string
 }
 
 export function proxy (request: NextRequest) {
-    const customerCookie = request.cookies.get("admin")?.value;
+    const userCookie = request.cookies.get("user")?.value;
 
     const {pathname} = request.nextUrl;
     console.log(pathname)
 
-    const toCustomerPage = pathname.startsWith("/customer")
+    const toUserPage = pathname.startsWith("/user")
     const toAdminPage = pathname.startsWith("/admin")
-    const isNeedSession = toCustomerPage || toAdminPage
+    const isNeedSession = toUserPage || toAdminPage
 
     if (isNeedSession) {
 
-      if (!customerCookie) {
+      if (!userCookie) {
         return NextResponse.redirect (new URL ("/", request.url));
     }
-    const customer = JSON.parse(customerCookie) as ICustomer
+    const user = JSON.parse(userCookie) as IUser
 
-if (toAdminPage && customer.role !== 'ADMIN') {
+if (toAdminPage && user.role !== 'ADMIN') {
     return NextResponse.redirect (new URL ("/", request.url));
 }
-if (toCustomerPage && customer.role !== 'CUSTOMER') {
+if (toUserPage && user.role !== 'USER') {
     return NextResponse.redirect (new URL ("/", request.url));
 }
 

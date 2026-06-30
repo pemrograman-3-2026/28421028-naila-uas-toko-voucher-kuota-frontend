@@ -6,8 +6,8 @@ import { IMenu } from "./menu/admin.menu";
 
 const navItems = [
   { to: "/admin", icon: <LayoutDashboard />, label: "Dashboard" },
-  { to: "/admin/product", icon: <Dna />, label: "Product" },
-  { to: "/admin/transaction", icon: <Clapperboard />, label: "Transaction" },
+  { to: "/admin/product", icon: <Dna />, label: "product" },
+  { to: "/admin/transaction", icon: <Clapperboard />, label: "transaction" },
   { to: "/admin/payment", icon: <Barcode />, label: "Payment" },
 ];
 

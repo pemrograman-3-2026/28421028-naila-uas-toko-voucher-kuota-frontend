@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from "react";
-import Sidebar from "@/components/layouts/Sidebar";
+import { userMenu } from "@/components/layouts/menu/user.menu";
 import Navbar from "@/components/layouts/Navbar";
-import { adminMenu } from "@/components/layouts/menu/admin.menu";
+import Sidebar from "@/components/layouts/Sidebar";
+import { useState } from "react";
 
 
 export default function AdminLayout ({
@@ -23,7 +23,7 @@ export default function AdminLayout ({
       
       <Sidebar
         isOpen={sidebarOpen}
-        listMenu={adminMenu}
+        listMenu={userMenu}
         collapsed={collapsed}
         onClose={() => setSidebarOpen(false)}
       />

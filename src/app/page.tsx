@@ -1,12 +1,11 @@
 'use client'
 
-import { api } from "@/lib/axios"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { showToast } from "./components/toast/Toast"
-import { ICustomer } from "@/proxy"
-
+import { showToast } from "@/components/toast/Toast";
+import { api } from "@/lib/axios";
+import { IUser } from "@/proxy";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function LoginPage() {
 
@@ -17,7 +16,7 @@ export default function LoginPage() {
  const onLogin =async (e: React.SubmitEvent) => {
   e.preventDefault()
   try {
-    const res = await api.post('admin/login',{
+    const res = await api.post('user/login',{
       username,
       password
     }, {
@@ -25,7 +24,7 @@ export default function LoginPage() {
     })
     
     showToast (res.data.message, 'success')
-    const data = res.data.data as ICustomer
+    const data = res.data.data as IUser
     router.push(`/${data.role.toLocaleLowerCase()}`)
   } catch (error: any) {
     showToast (error.response.data.message, 'danger')

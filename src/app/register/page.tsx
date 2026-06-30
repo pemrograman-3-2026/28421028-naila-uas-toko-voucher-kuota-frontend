@@ -1,33 +1,36 @@
 'use client'
 
+import { showToast } from "@/components/toast/Toast"
 import { api } from "@/lib/axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { showToast } from "../components/toast/Toast"
+
 
 
 export default function RegisterPage() {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [noTelp, setNoTelp] = useState('')
   const router = useRouter()
 
   const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     try {
-      const res = await api.post('admin/register', {
+      const res = await api.post('/user/register', {
         username,
-        password: password,
+        password,
+        no_telp: noTelp
+    
     }) 
       showToast(res.data.message, 'success')
       router.push('/')
     } catch (error: any) {
-      console.log(error)
       showToast(error.response.data.message, 'danger')  
     }
-  };
+  }
 
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
@@ -63,6 +66,18 @@ export default function RegisterPage() {
                 placeholder="Masukan Password"
                 value={password}
                 onChange={(e) => setPassword (e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label small fw-semibold">No Telp</label>
+              <input
+                type="Number"
+                name="no_telp"
+                className="form-control form-control-sm py-2"
+                placeholder="Masukan no telp"
+                value={noTelp}
+                onChange={(e) => setNoTelp (e.target.value)}
               />
             </div>
 
